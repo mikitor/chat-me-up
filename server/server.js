@@ -27,6 +27,18 @@ io.on('connection', (socket) => {
     cb('This is from the server');
   });
 
+  socket.on('create location message', (msg, cb) => {
+    const url = `https://www.google.com/maps/search/?api=1&query=${msg.latitude},${msg.longitude}`;
+
+    io.emit('new location message', {
+      from: msg.from,
+      url,
+      createdAt: new Date().getTime(),
+    });
+
+    cb('This is from the server');
+  });
+
   socket.on('disconnect', () => {
     console.log('a user disconnected');
   });

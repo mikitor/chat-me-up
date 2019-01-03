@@ -27,3 +27,39 @@ socket.on('new message', function (msg) {
   newLi.textContent = `${msg.from} - ${msg.text}`;
   messages.appendChild(newLi);
 });
+
+document.querySelector('#location').addEventListener('click', function geoFindMe() {
+  if (!navigator.geolocation) {
+    alert('Geolocation is not supported by your browser');
+    return;
+  }
+
+  navigator.geolocation.getCurrentPosition(function (position) {
+    const { latitude, longitude } = position.coords;
+
+    socket.emit('create location message', {
+      from: 'User',
+      latitude,
+      longitude,
+    }, function (data) {
+      console.log(data);
+    });
+  }, function (err) {
+    alert('Unable to retrieve your location');
+  });
+});
+
+socket.on('new location message', function (msg) {
+  const messages = document.querySelector('#messages');
+  const newLi = document.createElement('li');
+  const newLink = document.createElement('a');
+
+  newLink.target = '_blank';
+  newLink.href = msg.url;
+  newLink.textContent = 'I am here 📍';
+
+  newLi.textContent = `${msg.from}: `;
+  newLi.appendChild(newLink);
+
+  messages.appendChild(newLi);
+});
