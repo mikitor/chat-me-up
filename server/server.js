@@ -4,7 +4,7 @@ const app = express();
 const http = require('http').Server(app);
 const io = require('socket.io')(http);
 
-const { generateMsg } = require('./utils/message');
+const { generateMsg, generateLocationMsg } = require('./utils/message');
 
 const port = process.env.PORT || 3000;
 const publicPath = path.join(__dirname, '../public');
@@ -28,13 +28,7 @@ io.on('connection', (socket) => {
   });
 
   socket.on('create location message', (msg, cb) => {
-    const url = `https://www.google.com/maps/search/?api=1&query=${msg.latitude},${msg.longitude}`;
-
-    io.emit('new location message', {
-      from: msg.from,
-      url,
-      createdAt: new Date().getTime(),
-    });
+    io.emit('new location message', generateLocationMsg(msg.from, msg.latitude, msg.longitude));
 
     cb('This is from the server');
   });
