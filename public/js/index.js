@@ -14,6 +14,8 @@ document.querySelector('form').addEventListener('submit', function (e) {
   socket.emit('create message', {
     from: 'anomymous user',
     text,
+  }, function (data) {
+    console.log(data);
   });
   this.reset();
   return false;

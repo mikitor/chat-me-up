@@ -17,13 +17,14 @@ io.on('connection', (socket) => {
 
   socket.broadcast.emit('new message', generateMsg('Admin', 'Someone has joined the room'));
 
-  socket.on('create message', (msg) => {
+  socket.on('create message', (msg, cb) => {
     console.log(`new message from ${msg.from}: ${msg.text}`);
     io.emit('new message', {
       from: msg.from,
       text: msg.text,
       createdAt: new Date().getTime(),
     });
+    cb('This is from the server');
   });
 
   socket.on('disconnect', () => {
