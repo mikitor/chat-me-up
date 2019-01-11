@@ -9,13 +9,22 @@
 </head>
 
 <body>
-  <h1>Chat me up HOME page</h1>
+  <aside class="contacts">
+    <h3>Users</h3>
+    <div id="users"></div>
+  </aside>
+
+  <main>
   <ul id="messages"></ul>
+    <div class="input">
   <form action="">
     <input id="m" type="text" autocomplete="off" autofocus />
     <button>Send</button>
   </form>
   <button id="location">Send location</button>
+    </div>
+  </main>
+
   <script src="/socket.io/socket.io.js"></script>
   <script src="/js/index.js"></script>
 </body>
