@@ -24,7 +24,8 @@ document.querySelector('form').addEventListener('submit', function (e) {
 socket.on('new message', function (msg) {
   const messages = document.querySelector('#messages');
   const newLi = document.createElement('li');
-  newLi.textContent = `${msg.from} - ${msg.text}`;
+  const ago = moment(msg.createdAt).format('LTS');
+  newLi.textContent = `${ago} ${msg.from} - ${msg.text}`;
   messages.appendChild(newLi);
 });
 
@@ -63,12 +64,13 @@ socket.on('new location message', function (msg) {
   const messages = document.querySelector('#messages');
   const newLi = document.createElement('li');
   const newLink = document.createElement('a');
+  const ago = moment(msg.createdAt).format('LTS');
 
   newLink.target = '_blank';
   newLink.href = msg.url;
   newLink.textContent = 'I am here 📍';
 
-  newLi.textContent = `${msg.from}: `;
+  newLi.textContent = `${ago} ${msg.from}: `;
   newLi.appendChild(newLink);
 
   messages.appendChild(newLi);
