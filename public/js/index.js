@@ -29,10 +29,17 @@ socket.on('new message', function (msg) {
 });
 
 document.querySelector('#location').addEventListener('click', function geoFindMe() {
+  const output = document.querySelector('#m');
+  const locationButton = document.querySelector('#location');
+
   if (!navigator.geolocation) {
     alert('Geolocation is not supported by your browser');
     return;
   }
+
+  output.value = 'Locating...';
+  locationButton.disabled = true;
+  locationButton.textContent = 'Locating...';
 
   navigator.geolocation.getCurrentPosition(function (position) {
     const { latitude, longitude } = position.coords;
@@ -43,6 +50,9 @@ document.querySelector('#location').addEventListener('click', function geoFindMe
       longitude,
     }, function (data) {
       console.log(data);
+      output.value = '';
+      locationButton.disabled = false;
+      locationButton.textContent = 'Send location';
     });
   }, function (err) {
     alert('Unable to retrieve your location');
