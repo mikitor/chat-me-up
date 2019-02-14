@@ -2,7 +2,7 @@ const generateMsg = (from, text) => {
   return {
     from,
     text,
-    createdAt: new Date().getTime(),
+    createdAt: new Date().getTime()
   };
 };
 
@@ -11,11 +11,11 @@ const generateLocationMsg = (from, latitude, longitude) => {
   return {
     from,
     url,
-    createdAt: new Date().getTime(),
+    createdAt: new Date().getTime()
   };
 };
 
 module.exports = {
   generateMsg,
-  generateLocationMsg,
+  generateLocationMsg
 };

@@ -1,5 +1,5 @@
 const expect = require('expect');
-const { isAcceptedString } = require('./validate');
+const { isAcceptedString } = require('../utils/validate');
 
 describe('isAcceptedString', () => {
   it('should not accept numbers', () => {
@@ -10,8 +10,7 @@ describe('isAcceptedString', () => {
   });
 
   it('should not accept objects', () => {
-    const result = isAcceptedString({       test: 'test',
-    });
+    const result = isAcceptedString({ test: 'test' });
 
     expect(typeof result).toBe('boolean');
     expect(result).toBe(false);

@@ -15,10 +15,10 @@ const publicPath = path.join(__dirname, '../public');
 
 app.use('/', express.static(publicPath));
 
-io.on('connection', (socket) => {
+io.on('connection', socket => {
   console.log('User connected');
 
-  socket.on('join', function (props, cb) {
+  socket.on('join', function(props, cb) {
     if (!isAcceptedString(props.room) || !isAcceptedString(props.name)) {
       return cb('Username and room number are required');
     }
@@ -31,10 +31,12 @@ io.on('connection', (socket) => {
 
     io.to(props.room).emit('updateActiveUsers', users.getAllUsers(props.room));
     socket.emit('receiveMsg', generateMsg('Admin', 'Welcome to Chat me up!'));
-    socket.broadcast.to(props.room).emit('receiveMsg', generateMsg('Admin', `${props.name} has joined the room`));
+    socket.broadcast
+      .to(props.room)
+      .emit('receiveMsg', generateMsg('Admin', `${props.name} has joined the room`));
   });
 
-  socket.on('sendMsg', (msg) => {
+  socket.on('sendMsg', msg => {
     const user = users.getUser(socket.id);
 
     if (user && isAcceptedString(msg.text)) {
@@ -46,7 +48,10 @@ io.on('connection', (socket) => {
     const user = users.getUser(socket.id);
 
     if (user) {
-      io.to(user.room).emit('new location message', generateLocationMsg(user.name, msg.latitude, msg.longitude));
+      io.to(user.room).emit(
+        'new location message',
+        generateLocationMsg(user.name, msg.latitude, msg.longitude)
+      );
     }
 
     cb('This is from the server');
@@ -57,7 +62,9 @@ io.on('connection', (socket) => {
     if (user) {
       console.log(`${user.name} disconnected`);
       socket.broadcast.to(user.room).emit('updateActiveUsers', users.getAllUsers(user.room));
-      socket.broadcast.to(user.room).emit('receiveMsg', generateMsg('Admin', `${user.name} has left the room`));
+      socket.broadcast
+        .to(user.room)
+        .emit('receiveMsg', generateMsg('Admin', `${user.name} has left the room`));
     }
   });
 });

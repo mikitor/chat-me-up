@@ -22,9 +22,7 @@ class Users {
   }
 
   getAllUsers(room) {
-    const users = this.users
-      .filter(user => user.room === room)
-      .map(user => user.name);
+    const users = this.users.filter(user => user.room === room).map(user => user.name);
     return users;
   }
 }

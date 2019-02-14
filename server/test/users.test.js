@@ -1,5 +1,5 @@
 const expect = require('expect');
-const { Users } = require('./users');
+const { Users } = require('../utils/users');
 
 describe('Users', () => {
   let users;
